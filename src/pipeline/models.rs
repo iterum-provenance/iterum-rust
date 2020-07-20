@@ -62,3 +62,69 @@ pub struct PipelineRun {
     #[serde(default = "empty_config", skip_serializing_if = "Config::is_empty")]
     pub config: Config,
 }
+
+impl PipelineRun {
+    pub fn frag_name(&self) -> String {
+        format!("{}-fragmenter", self.pipeline_run_hash)
+    }
+    pub fn comb_name(&self) -> String {
+        format!("{}-combiner", self.pipeline_run_hash)
+    }
+    pub fn step_name(&self, step: &TransformationStep) -> String {
+        format!("{}-{}", self.pipeline_run_hash, step.name.to_string())
+    }
+
+    pub fn create_output_channel_map(&self) -> HashMap<String, String> {
+        let mut outputs = HashMap::new();
+        for step in &self.steps {
+            outputs.insert(step.output_channel.to_string(), self.step_name(step));
+        }
+        outputs.insert(self.fragmenter.output_channel.to_string(), self.frag_name());
+        outputs
+    }
+
+    pub fn is_valid(&self) -> bool {
+        // First map the inputs and output channels to each other
+        let outputs = self.create_output_channel_map();
+
+        // Determine whether there is a connection for all steps
+        let mut first_node_upstream_map: HashMap<String, String> = HashMap::new();
+
+        for step in &self.steps {
+            match outputs.get(&step.input_channel) {
+                Some(parent) => {
+                    first_node_upstream_map.insert(self.step_name(step), parent.to_string());
+                }
+                None => {
+                    return false;
+                }
+            };
+        }
+        match outputs.get(&self.combiner.input_channel) {
+            Some(parent) => {
+                first_node_upstream_map.insert(self.comb_name(), parent.to_string());
+            }
+            None => {
+                return false;
+            }
+        };
+
+        true
+    }
+
+    pub fn create_first_node_upstream_map(&self) -> HashMap<String, String> {
+        // First map the inputs and output channels to each other
+        let outputs = self.create_output_channel_map();
+
+        // Determine whether there is a connection for all steps
+        let mut first_node_upstream_map: HashMap<String, String> = HashMap::new();
+        for step in &self.steps {
+            let parent = outputs.get(&step.input_channel).unwrap();
+            first_node_upstream_map.insert(self.step_name(step), parent.to_string());
+        }
+        let parent = outputs.get(&self.combiner.input_channel).unwrap();
+        first_node_upstream_map.insert(self.comb_name(), parent.to_string());
+
+        first_node_upstream_map
+    }
+}
