@@ -71,7 +71,7 @@ impl Dataset {
 mod tests {
     use super::*;
     use crate::utils::create_random_hash;
-    use crate::version_control::{Deprecated, Diff};
+    use iterum_rust::vc::{Deprecated, Diff};
 
     fn create_dummy_commit(dataset: &Dataset) -> Commit {
         let branch_hash = dataset.branches.iter().next().unwrap().0;
