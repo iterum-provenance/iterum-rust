@@ -72,7 +72,7 @@ pub enum StepStatus {
 
 #[derive(Serialize, Deserialize)]
 pub struct PipelineExecution {
-    pub pipeline_run_hash: String,
+    pub pipeline_run: PipelineRun,
     pub status: HashMap<String, StepStatus>,
     pub results: Option<Vec<String>>,
 }
