@@ -63,6 +63,20 @@ pub struct PipelineRun {
     pub config: Config,
 }
 
+#[derive(Serialize, Deserialize)]
+pub enum StepStatus {
+    Succeeded,
+    Running,
+    Failed,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PipelineExecution {
+    pub pipeline_run_hash: String,
+    pub status: HashMap<String, StepStatus>,
+    pub results: Option<Vec<String>>,
+}
+
 impl PipelineRun {
     pub fn frag_name(&self) -> String {
         format!("{}-fragmenter", self.pipeline_run_hash)
