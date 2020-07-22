@@ -71,6 +71,7 @@ impl Dataset {
 mod tests {
     use super::*;
     use crate::utils::create_random_hash;
+    use crate::vc::tests::create_new_dataset;
     use crate::vc::{Deprecated, Diff};
 
     fn create_dummy_commit(dataset: &Dataset) -> Commit {
