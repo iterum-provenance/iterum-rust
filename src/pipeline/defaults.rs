@@ -1,3 +1,5 @@
+//! This module contains some defaults for structs. This is necessary for the endpoints to allow json structures with missing fields.
+
 use crate::pipeline::Config;
 use std::collections::HashMap;
 

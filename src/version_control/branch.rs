@@ -26,11 +26,11 @@ impl Dataset {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    // use crate::tests::create_new_dataset;
+    use super::{Branch, Dataset};
     use crate::utils::create_random_hash;
+    use crate::vc::tests::{create_dummy_commit, create_new_dataset};
 
-    fn _create_dummy_branch(dataset: &Dataset) -> Branch {
+    fn create_dummy_branch(dataset: &Dataset) -> Branch {
         let branch_hash = dataset.branches.iter().next().unwrap().0;
         let trunk = dataset.branches.get(branch_hash).unwrap();
 
@@ -39,5 +39,33 @@ mod tests {
             name: "dummy".to_owned(),
             head: trunk.head.to_string(),
         }
+    }
+
+    #[test]
+    fn add_branch() {
+        let mut dataset = create_new_dataset();
+
+        let commit1 = create_dummy_commit(&dataset);
+        dataset = dataset.add_commit(&commit1).unwrap();
+        let commit2 = create_dummy_commit(&dataset);
+        dataset = dataset.add_commit(&commit2).unwrap();
+
+        // Check if head of master is now commit2:
+        let branch = dataset
+            .branches
+            .iter()
+            .find(|(_, branch)| branch.name == "master")
+            .unwrap()
+            .1;
+        assert!(
+            branch.head == commit2.hash,
+            "The head was not set correctly"
+        );
+
+        // Now add a branch from commit 1
+        let mut branch = create_dummy_branch(&dataset);
+        branch.head = commit1.hash;
+        dataset = dataset.add_branch(&branch).unwrap();
+        todo!("Fix this test");
     }
 }

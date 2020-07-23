@@ -12,6 +12,7 @@ impl VCErrorMessage {
     }
 }
 
+/// Various errors related to the versioning of data
 #[derive(Debug, PartialEq)]
 pub enum VersionControlError {
     CommitIncomplete(VCErrorMessage),

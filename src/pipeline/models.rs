@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 
+/// Contains all the necessary information for a transformation step of a pipeline.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct TransformationStep {
     pub name: String,
@@ -17,6 +18,7 @@ pub struct TransformationStep {
     pub config: Config,
 }
 
+/// Contains all the necessary information for the fragmenter of a pipeline
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Fragmenter {
     pub image: String,
@@ -30,11 +32,13 @@ pub struct Fragmenter {
     pub config_files_all: Option<HashMap<String, Vec<String>>>,
 }
 
+/// Contains all the necessary information for the combiner of a pipeline
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Combiner {
     pub input_channel: String,
 }
 
+/// Configuration to be passed along with a pipeline or transformation step
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
     #[serde(default = "HashMap::new", skip_serializing_if = "HashMap::is_empty")]
@@ -49,6 +53,7 @@ impl Config {
     }
 }
 
+/// The specific configuration of a pipeline run.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PipelineRun {
     #[serde(default = "empty_hash")]
@@ -63,6 +68,7 @@ pub struct PipelineRun {
     pub config: Config,
 }
 
+/// The status of one step in a pipeline
 #[derive(Serialize, Deserialize)]
 pub enum StepStatus {
     Succeeded,
@@ -70,6 +76,7 @@ pub enum StepStatus {
     Failed,
 }
 
+/// Struct which is saved for persistent storage.
 #[derive(Serialize, Deserialize)]
 pub struct PipelineExecution {
     pub pipeline_run: PipelineRun,

@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+/// Structure which contains all the necessary information for versioned data sets
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Dataset {
     pub commits: HashMap<String, Commit>,
@@ -8,6 +9,7 @@ pub struct Dataset {
     pub version_tree: VersionTree,
 }
 
+/// Possible ways in which a file can be changed
 #[derive(Serialize, Deserialize, Debug)]
 pub enum ChangeType {
     Added,
@@ -15,6 +17,7 @@ pub enum ChangeType {
     Updated,
 }
 
+/// Actual changes in dataset for a commit
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Diff {
     pub added: Vec<String>,
@@ -22,12 +25,14 @@ pub struct Diff {
     pub updated: Vec<String>,
 }
 
+/// Whether a commit should be used for pipeline runs or not
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Deprecated {
     pub value: bool,
     pub reason: String,
 }
 
+/// Version of a dataset
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Commit {
     pub hash: String,
@@ -40,6 +45,7 @@ pub struct Commit {
     pub deprecated: Deprecated,
 }
 
+/// Description of a branch for the dataset
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Branch {
     pub hash: String,
@@ -47,6 +53,7 @@ pub struct Branch {
     pub head: String,
 }
 
+/// A node for a version tree
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct VersionTreeNode {
     pub name: String,
@@ -55,6 +62,7 @@ pub struct VersionTreeNode {
     pub parent: Option<String>,
 }
 
+/// Structure of how different versions in a dataset relate to each other
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct VersionTree {
     pub tree: HashMap<String, VersionTreeNode>,

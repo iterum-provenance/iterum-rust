@@ -1,3 +1,4 @@
+//! This module consists of the structures regarding data versioning, as well as the logic for checking whether versions of data sets are valid.
 pub mod dataset;
 pub mod error;
 

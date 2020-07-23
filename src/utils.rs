@@ -1,3 +1,4 @@
+//! Some utilities shared throughout the Iterum Rust codebase
 use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 use std::iter;

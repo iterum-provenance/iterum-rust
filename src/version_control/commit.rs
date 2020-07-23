@@ -2,6 +2,7 @@ use super::error::{VCErrorMessage, VersionControlError};
 use super::{Commit, Dataset, VersionTreeNode};
 
 impl Dataset {
+    /// Adds a commit to a dataset, but first perform integrity checks whether the commit can be added
     pub fn add_commit(mut self, commit: &Commit) -> Result<Dataset, VersionControlError> {
         // Check whether the commit does not already exist:
         if self.version_tree.tree.contains_key(&commit.hash) {
@@ -71,36 +72,7 @@ impl Dataset {
 mod tests {
     use super::*;
     use crate::utils::create_random_hash;
-    use crate::vc::tests::create_new_dataset;
-    use crate::vc::{Deprecated, Diff};
-
-    fn create_dummy_commit(dataset: &Dataset) -> Commit {
-        let branch_hash = dataset.branches.iter().next().unwrap().0;
-        let branch = dataset.branches.get(branch_hash).unwrap();
-        let mut commit = Commit {
-            hash: "".to_owned(),
-            name: "".to_owned(),
-            parent: Some("".to_owned()),
-            branch: "".to_owned(),
-            description: "".to_owned(),
-            deprecated: Deprecated {
-                value: false,
-                reason: "".to_owned(),
-            },
-            diff: Diff {
-                added: vec![],
-                updated: vec![],
-                removed: vec![],
-            },
-            files: vec![],
-        };
-
-        commit.branch = branch_hash.to_string();
-        commit.hash = create_random_hash();
-        commit.parent = Some(branch.head.to_string());
-
-        commit
-    }
+    use crate::vc::tests::{create_dummy_commit, create_new_dataset};
 
     #[test]
     fn add_normal_commit() {

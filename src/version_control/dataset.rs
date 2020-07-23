@@ -24,6 +24,7 @@ impl Default for Dataset {
 }
 
 impl Dataset {
+    /// Creates a new dataset, and populates it with a root commit and master branch
     pub fn new() -> Dataset {
         let mut tree: HashMap<String, VersionTreeNode> = HashMap::new();
         let root_commit_hash = create_random_hash();
