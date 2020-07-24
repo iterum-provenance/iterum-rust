@@ -1,6 +1,6 @@
 # Iterum Rust
 
-This repository contains the code shared between the daemon and the manager. This library is split into three submodules: pipeline-, provenance- and version-control- related structures. For the version-control module it also includes the logic with regards to integrity checks for the dataset versions.
+This repository contains the code shared between the [daemon](https://github.com/iterum-provenance/daemon) and the [manager](https://github.com/iterum-provenance/manager). This library is split into three submodules: pipeline-, provenance- and version-control- related structures. For the version-control module it also includes the logic with regards to integrity checks for the dataset versions.
 
 # Tests
 
