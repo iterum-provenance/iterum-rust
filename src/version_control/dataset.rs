@@ -5,18 +5,6 @@ use crate::version_control::{
 use crate::utils::create_random_hash;
 use std::collections::HashMap;
 
-// Dataset struct waar alle json files in zitten wat je ook op de disc opslaat.
-// Dan kan je makkelijker integrity checks doen.
-// Functies die een dataset krijgen + een aanpassing, en dan kan je zeggen of het mag of niet.
-// Je kan dan een specifieke error terugsturen waarom iets niet mag.
-// Verder kan je makkelijk unit tests schrijven voor de verschillende integrity checks.
-
-// Je houd dan die dataset struct in de lokale cache. Je kan dan ook een RwLock daar opslaan.
-// De data zou dan wel tot elke worker beschikbaar moeten zijn.
-
-// Functies hebben dan de signature: Dataset + aanpassing -> Result<Aangepaste Dataset, Error>
-// Vervolgens kan de caller de nieuwe dataset opslaan.
-
 impl Default for Dataset {
     fn default() -> Self {
         Self::new()

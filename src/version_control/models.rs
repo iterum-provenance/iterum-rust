@@ -32,7 +32,7 @@ pub struct Deprecated {
     pub reason: String,
 }
 
-/// Version of a dataset
+/// Version of a dataset. Only describes the version information, but the actual data from the dataset is stored somewhere else, dependent on the storage backend used.
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Commit {
     pub hash: String,
